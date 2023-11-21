@@ -632,29 +632,13 @@ export default class GMApi {
 
   static clipboardData: { type?: string; data: string } | undefined;
 
-  @PermissionVerify.API({
-    listener() {
-      PermissionVerify.textarea.style.display = "none";
-      document.documentElement.appendChild(PermissionVerify.textarea);
-      document.addEventListener("copy", (e: ClipboardEvent) => {
-        if (!GMApi.clipboardData || !e.clipboardData) {
-          return;
-        }
-        e.preventDefault();
-        const { type, data } = GMApi.clipboardData;
-        e.clipboardData.setData(type || "text/plain", data);
-        GMApi.clipboardData = undefined;
-      });
-    },
-  })
+  // TODO: mv3
   GM_setClipboard(request: Request) {
     return new Promise((resolve) => {
       GMApi.clipboardData = {
         type: request.params[1],
         data: request.params[0],
       };
-      PermissionVerify.textarea.focus();
-      document.execCommand("copy", false, <any>null);
       resolve(undefined);
     });
   }

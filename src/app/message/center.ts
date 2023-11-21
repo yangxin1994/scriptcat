@@ -16,8 +16,6 @@ export default class MessageCenter
   extends MessageHander
   implements IMessageBroadcast
 {
-  sandbox?: Window;
-
   logger: Logger;
 
   constructor() {
@@ -30,10 +28,6 @@ export default class MessageCenter
   connectMap: Map<TargetTag, Map<number, chrome.runtime.Port>> = new Map();
 
   streamMap: Map<string, string> = new Map();
-
-  setSandbox(sandbox: Window) {
-    this.sandbox = sandbox;
-  }
 
   public start() {
     // 基于chrome.runtime.onConnect去做
@@ -81,23 +75,6 @@ export default class MessageCenter
         this.handler(message, portMessage, sender);
       });
     });
-    const sandboxMessage = new WarpChannelManager((data) => {
-      this.sandbox?.postMessage(data, "*");
-    });
-    // 监听沙盒消息
-    window.addEventListener("message", (event) => {
-      const message = event.data;
-      if (message.broadcast === true) {
-        // 广播
-        const target = message.target as Target;
-        if (message.action) {
-          this.send(target, message.action, message.data);
-        } else {
-          this.sendNative(target, message.data);
-        }
-      }
-      this.handler(message, sandboxMessage, { targetTag: "sandbox" });
-    });
   }
 
   broadcast(target: Target, action: string, data: any): void {
@@ -123,10 +100,6 @@ export default class MessageCenter
         );
       });
       this.sendNative({ tag: "sandbox" }, data);
-      return;
-    }
-    if (target.tag === "sandbox") {
-      this.sandbox?.postMessage(data, "*");
       return;
     }
     const connectMap = this.connectMap.get(target.tag);

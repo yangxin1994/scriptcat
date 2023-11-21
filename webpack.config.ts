@@ -21,7 +21,7 @@ const config: Configuration = {
   entry: {
     options: `${src}/pages/options/main.tsx`,
     install: `${src}/pages/install/main.tsx`,
-    background: `${src}/background.ts`,
+    offscreen: `${src}/offscreen.ts`,
     sandbox: `${src}/sandbox.ts`,
     popup: `${src}/pages/popup/main.tsx`,
     confirm: `${src}/pages/confirm/main.tsx`,
@@ -74,14 +74,14 @@ const config: Configuration = {
       chunks: ["popup"],
     }),
     new HtmlWebpackPlugin({
-      filename: `${dist}/ext/src/background.html`,
-      template: `${template}/background.html`,
+      filename: `${dist}/ext/src/offscreen.html`,
+      template: `${template}/offscreen.html`,
       inject: "head",
       title: "ScriptCat",
       minify: {
         removeComments: true,
       },
-      chunks: ["background"],
+      chunks: ["offscreen"],
       scriptLoading: "blocking",
     }),
     new HtmlWebpackPlugin({

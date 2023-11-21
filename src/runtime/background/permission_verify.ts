@@ -58,8 +58,6 @@ export interface IPermissionVerify {
 export default class PermissionVerify {
   static apis: Map<string, ApiValue> = new Map();
 
-  static textarea: HTMLTextAreaElement = document.createElement("textarea");
-
   public static API(param: ApiParam = {}) {
     return (
       target: any,

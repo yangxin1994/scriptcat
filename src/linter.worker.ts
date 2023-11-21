@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 // @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Linter } from "eslint/lib/linter/linter.js";
 // @ts-ignore
 import { userscriptsRules } from "../eslint/linter-config";
